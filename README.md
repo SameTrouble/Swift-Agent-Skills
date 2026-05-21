@@ -125,6 +125,9 @@ The skills listed here are open source, so please take the time to read through 
 
 - [Swift Security Expert](https://github.com/ivan-magda/swift-security-skill) by [Ivan Magda](https://github.com/ivan-magda)
 
+### Codebase Audit Skills
+
+- [iOS Code Audit](https://github.com/jazzychad/ios-code-audit) by [Chad Etzel](https://github.com/jazzychad)
 
 ### Tool Skills
 
