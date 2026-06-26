@@ -28,29 +28,53 @@ fi
 TMPDIR="$(mktemp -d)"
 trap 'rm -rf "$TMPDIR"' EXIT
 
-declare -A CLONED
+# Track cloned repos: newline-delimited "repo<TAB>path" pairs (bash 3.2 compatible).
+CLONED_REPOS=""
+CLONED_PATHS=""
 
 synced=0
 skipped=0
 failed=0
 
-# Read catalog entries via python (jq not guaranteed).
-mapfile -t ENTRIES < <(python3 -c '
+# Read catalog entries via python (jq not guaranteed). bash 3.2 has no mapfile.
+ENTRIES="$(python3 -c '
 import json, sys
 with open(sys.argv[1]) as f:
     for e in json.load(f):
         print(f"{e[\"name\"]}\t{e[\"category\"]}\t{e[\"repo\"]}\t{e[\"subdir\"]}")
-' "$CATALOG")
+' "$CATALOG")"
 
-for line in "${ENTRIES[@]}"; do
+while IFS= read -r line; do
+  [[ -z "$line" ]] && continue
   IFS=$'\t' read -r name category repo subdir <<<"$line"
   base="$(repo_basename "$repo")"
 
-  # Clone once per repo.
-  if [[ -z "${CLONED[$repo]:-}" ]]; then
+  # Clone once per repo: look up by repo URL in CLONED_REPOS.
+  src=""
+  if [[ -n "$CLONED_REPOS" ]]; then
+    idx=0
+    IFS=$'\n'
+    for r in $CLONED_REPOS; do
+      if [[ "$r" == "$repo" ]]; then
+        src="$(echo "$CLONED_PATHS" | sed -n "$((idx + 1))p")"
+        break
+      fi
+      idx=$((idx + 1))
+    done
+    unset IFS
+  fi
+
+  if [[ -z "$src" ]]; then
     echo "Cloning $repo ..."
     if git clone --depth 1 "$repo" "$TMPDIR/$base" 2>/dev/null; then
-      CLONED[$repo]="$TMPDIR/$base"
+      src="$TMPDIR/$base"
+      if [[ -n "$CLONED_REPOS" ]]; then
+        CLONED_REPOS="$CLONED_REPOS"$'\n'"$repo"
+        CLONED_PATHS="$CLONED_PATHS"$'\n'"$src"
+      else
+        CLONED_REPOS="$repo"
+        CLONED_PATHS="$src"
+      fi
     else
       echo "  WARN: clone failed for $repo, skipping $name" >&2
       failed=$((failed + 1))
@@ -58,7 +82,6 @@ for line in "${ENTRIES[@]}"; do
     fi
   fi
 
-  src="${CLONED[$repo]}"
   if [[ "$subdir" != "." ]]; then
     src="$src/$subdir"
   fi
