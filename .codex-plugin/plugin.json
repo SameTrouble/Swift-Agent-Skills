@@ -1,0 +1,11 @@
+{
+  "name": "swift-agent-skills",
+  "version": "0.2.0",
+  "description": "Curated Swift and Apple platform agent skills for SwiftUI, SwiftData, Swift concurrency, Swift Testing, and more.",
+  "author": { "name": "Paul Hudson", "url": "https://github.com/SameTrouble" },
+  "homepage": "https://github.com/SameTrouble/Swift-Agent-Skills",
+  "repository": "https://github.com/SameTrouble/Swift-Agent-Skills",
+  "license": "MIT",
+  "keywords": ["swift", "swiftui", "swiftdata", "ios", "apple"],
+  "skills": "./skills/"
+}
