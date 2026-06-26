@@ -169,6 +169,45 @@ You also agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 **Note:** If you have many skills, please pick a handful of the most important to add so it doesn’t look like you’re just spamming the repository.
 
 
+## Use as an opencode plugin
+
+This repository is also packaged as an opencode plugin that bundles all listed Swift skills and auto-registers them. One-line install:
+
+```json
+{
+  "plugin": ["swift-agent-skills@git+https://github.com/SameTrouble/Swift-Agent-Skills.git"]
+}
+```
+
+Restart OpenCode, then use the `skill` tool to list or load any of the bundled skills (e.g. `swiftui-pro`, `swiftdata-pro`, `swift-concurrency-pro`). Skills trigger automatically when their description matches your task.
+
+### Alternative install methods
+
+**Local clone (auto-discovery):**
+
+```bash
+git clone https://github.com/SameTrouble/Swift-Agent-Skills ~/.config/opencode/plugins/Swift-Agent-Skills
+```
+
+**Static skills only (no plugin code):**
+
+```json
+{
+  "skills": { "paths": ["./Swift-Agent-Skills/skills"] }
+}
+```
+
+### Syncing skills (maintainers)
+
+Vendored skills live under `skills/<category>/<name>/`. To refresh from upstream repos:
+
+```bash
+./scripts/sync.sh
+```
+
+This reads `scripts/catalog.json`, re-clones each upstream, and copies skill files into `skills/`. Review `git diff` before committing.
+
+
 ## License
 
 This repository was created by [Paul Hudson](https://twitter.com/twostraws), who writes [free Swift tutorials over at Hacking with Swift](https://www.hackingwithswift.com). The repository itself is available under the [MIT License](LICENSE), which permits commercial use, modification, distribution, and private use, but the links and summaries belong to others.

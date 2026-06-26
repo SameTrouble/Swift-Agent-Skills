@@ -1,0 +1,13 @@
+{
+  "name": "swift-agent-skills",
+  "version": "0.1.0",
+  "description": "Curated Swift and Apple platform agent skills for opencode",
+  "type": "module",
+  "main": ".opencode/plugins/swift-skills.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "@opencode-ai/plugin": "latest",
+    "@types/node": "^22.20.0",
+    "typescript": "^5.9.2"
+  }
+}
