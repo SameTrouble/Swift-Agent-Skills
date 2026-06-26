@@ -169,9 +169,63 @@ You also agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 **Note:** If you have many skills, please pick a handful of the most important to add so it doesn’t look like you’re just spamming the repository.
 
 
-## Use as an opencode plugin
+## Installation
 
-This repository is also packaged as an opencode plugin that bundles all listed Swift skills and auto-registers them. One-line install:
+This repository is packaged as a plugin for Claude Code, Codex, and OpenCode. All three read the same bundled Swift skills from `skills/`.
+
+### Claude Code
+
+Add this repo as a marketplace, then install the plugin:
+
+```
+/plugin marketplace add SameTrouble/Swift-Agent-Skills
+/plugin install swift-agent-skills@swift-agent-skills
+```
+
+Restart Claude Code. Skills are namespaced as `/swift-agent-skills:swiftui-pro`, etc. Run `/help` to see all available skills.
+
+**Alternative (local clone, no marketplace):**
+
+```bash
+git clone https://github.com/SameTrouble/Swift-Agent-Skills ~/swift-agent-skills
+claude --plugin-dir ~/swift-agent-skills
+```
+
+### Codex
+
+Add this repo as a marketplace, then install from the plugin directory:
+
+```bash
+codex plugin marketplace add SameTrouble/Swift-Agent-Skills
+```
+
+Restart Codex, open the plugin directory, and install `swift-agent-skills`. Skills are invoked with `$skill-name` (e.g. `$swiftui-pro`) or implicitly when a task matches the skill description.
+
+**Alternative (local clone):**
+
+```bash
+git clone https://github.com/SameTrouble/Swift-Agent-Skills ~/.codex/plugins/swift-agent-skills
+```
+
+Then add a personal marketplace entry at `~/.agents/plugins/marketplace.json`:
+
+```json
+{
+  "name": "swift-agent-skills",
+  "plugins": [
+    {
+      "name": "swift-agent-skills",
+      "source": { "source": "local", "path": "~/.codex/plugins/swift-agent-skills" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}
+```
+
+### OpenCode
+
+Add swift-agent-skills to the `plugin` array in your `opencode.json`:
 
 ```json
 {
@@ -179,9 +233,17 @@ This repository is also packaged as an opencode plugin that bundles all listed S
 }
 ```
 
-Restart OpenCode, then use the `skill` tool to list or load any of the bundled skills (e.g. `swiftui-pro`, `swiftdata-pro`, `swift-concurrency-pro`). Skills trigger automatically when their description matches your task.
+Restart OpenCode, then use the `skill` tool to list or load any bundled skill (e.g. `swiftui-pro`, `swiftdata-pro`, `swift-concurrency-pro`).
 
-### Alternative install methods
+**Pinning a version:**
+
+```json
+{
+  "plugin": ["swift-agent-skills@git+https://github.com/SameTrouble/Swift-Agent-Skills.git#v0.2.0"]
+}
+```
+
+**Alternative install methods:**
 
 **Local clone (auto-discovery):**
 
@@ -199,7 +261,7 @@ git clone https://github.com/SameTrouble/Swift-Agent-Skills ~/.config/opencode/p
 
 ### Syncing skills (maintainers)
 
-Vendored skills live under `skills/<category>/<name>/`. To refresh from upstream repos:
+Vendored skills live under `skills/<name>/`. To refresh from upstream repos:
 
 ```bash
 ./scripts/sync.sh

@@ -1,6 +1,6 @@
 {
   "name": "swift-agent-skills",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Curated Swift and Apple platform agent skills for opencode",
   "type": "module",
   "main": ".opencode/plugins/swift-skills.ts",

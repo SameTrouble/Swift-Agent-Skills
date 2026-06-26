@@ -101,7 +101,7 @@ while IFS= read -r line; do
     continue
   fi
 
-  target="$SKILLS_DIR/$category/$name"
+  target="$SKILLS_DIR/$name"
   rm -rf "${target:?}"
   mkdir -p "$target"
   # Copy upstream contents, excluding the .git dir (don't vendor git history).
@@ -127,6 +127,9 @@ while IFS= read -r line; do
   echo "  synced: $category/$name"
   synced=$((synced + 1))
 done <<<"$ENTRIES"
+
+# Remove leftover empty directories (e.g. from the old category layout).
+find "$SKILLS_DIR" -mindepth 1 -maxdepth 1 -type d -empty -delete
 
 echo ""
 echo "Sync complete: $synced synced, $skipped skipped, $failed failed."
