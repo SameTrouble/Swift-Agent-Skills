@@ -1,0 +1,12 @@
+{
+  "name": "swift-agent-skills",
+  "owner": { "name": "Paul Hudson" },
+  "plugins": [
+    {
+      "name": "swift-agent-skills",
+      "source": "./",
+      "description": "Curated Swift and Apple platform agent skills.",
+      "version": "0.2.0"
+    }
+  ]
+}
