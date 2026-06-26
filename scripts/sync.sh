@@ -41,7 +41,7 @@ ENTRIES="$(python3 -c '
 import json, sys
 with open(sys.argv[1]) as f:
     for e in json.load(f):
-        print(f"{e[\"name\"]}\t{e[\"category\"]}\t{e[\"repo\"]}\t{e[\"subdir\"]}")
+        print("\t".join([e["name"], e["category"], e["repo"], e["subdir"]]))
 ' "$CATALOG")"
 
 while IFS= read -r line; do
@@ -66,7 +66,16 @@ while IFS= read -r line; do
 
   if [[ -z "$src" ]]; then
     echo "Cloning $repo ..."
-    if git clone --depth 1 "$repo" "$TMPDIR/$base" 2>/dev/null; then
+    clone_ok=0
+    for attempt in 1 2 3; do
+      if git clone --depth 1 "$repo" "$TMPDIR/$base" 2>/dev/null; then
+        clone_ok=1
+        break
+      fi
+      rm -rf "${TMPDIR:?}/$base"
+      [[ $attempt -lt 3 ]] && sleep 2
+    done
+    if [[ $clone_ok -eq 1 ]]; then
       src="$TMPDIR/$base"
       if [[ -n "$CLONED_REPOS" ]]; then
         CLONED_REPOS="$CLONED_REPOS"$'\n'"$repo"
@@ -76,7 +85,7 @@ while IFS= read -r line; do
         CLONED_PATHS="$src"
       fi
     else
-      echo "  WARN: clone failed for $repo, skipping $name" >&2
+      echo "  WARN: clone failed for $repo (after 3 attempts), skipping $name" >&2
       failed=$((failed + 1))
       continue
     fi
@@ -93,9 +102,22 @@ while IFS= read -r line; do
   fi
 
   target="$SKILLS_DIR/$category/$name"
+  rm -rf "${target:?}"
   mkdir -p "$target"
-  rm -rf "${target:?}/"*
-  cp -R "$src/." "$target/"
+  # Copy upstream contents, excluding the .git dir (don't vendor git history).
+  if command -v rsync >/dev/null 2>&1; then
+    rsync -a --exclude='.git' "$src/" "$target/"
+  else
+    # Fallback: tar pipe excluding .git (portable, no rsync needed).
+    ( cd "$src" && tar -cf - --exclude='./.git' . ) | ( cd "$target" && tar -xf - )
+  fi
+
+  # Remove upstream packaging artifacts: a nested skills/ subdir that ships its
+  # own SKILL.md (e.g. twostraws repos contain <skill>/skills/<skill>/SKILL.md).
+  # We keep only the top-level SKILL.md as the canonical vendored skill.
+  if [[ -d "$target/skills" ]] && find "$target/skills" -name SKILL.md -print -quit | grep -q .; then
+    rm -rf "${target:?}/skills"
+  fi
 
   # Warn if frontmatter name missing.
   if ! head -10 "$target/SKILL.md" | grep -q '^name:'; then
@@ -104,7 +126,7 @@ while IFS= read -r line; do
 
   echo "  synced: $category/$name"
   synced=$((synced + 1))
-done
+done <<<"$ENTRIES"
 
 echo ""
 echo "Sync complete: $synced synced, $skipped skipped, $failed failed."
