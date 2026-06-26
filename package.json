@@ -6,6 +6,8 @@
   "main": ".opencode/plugins/swift-skills.ts",
   "license": "MIT",
   "devDependencies": {
-    "@opencode-ai/plugin": "latest"
+    "@opencode-ai/plugin": "latest",
+    "@types/node": "^22.20.0",
+    "typescript": "^5.9.2"
   }
 }
