@@ -1,6 +1,6 @@
 {
-  "name": "swift-agent-skills",
-  "description": "Curated Swift and Apple platform agent skills for SwiftUI, SwiftData, Swift concurrency, Swift Testing, and more.",
+  "name": "swift-agent-skills-zh",
+  "description": "精选 Swift 与 Apple 平台代理技能，涵盖 SwiftUI、SwiftData、Swift 并发、Swift Testing 等。（中文版）",
   "version": "0.2.0",
   "author": { "name": "Paul Hudson" },
   "homepage": "https://github.com/SameTrouble/Swift-Agent-Skills",

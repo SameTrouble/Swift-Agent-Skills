@@ -3,9 +3,15 @@
   "owner": { "name": "Paul Hudson" },
   "plugins": [
     {
-      "name": "swift-agent-skills",
-      "source": "./",
-      "description": "Curated Swift and Apple platform agent skills.",
+      "name": "swift-agent-skills-en",
+      "source": "./plugins/en",
+      "description": "Curated Swift agent skills (English).",
+      "version": "0.2.0"
+    },
+    {
+      "name": "swift-agent-skills-zh",
+      "source": "./plugins/zh",
+      "description": "精选 Swift 代理技能（中文版）。",
       "version": "0.2.0"
     }
   ]
