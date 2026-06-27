@@ -3,6 +3,7 @@
 </p>
 
 <h1 align="center">Swift Agent Skills for Claude Code, Codex, and more</h1>
+<h2 align="center">Swift Agent Skills 技能集 · 支持中英双语</h2>
 
 A curated collection of open-source AI agent skills for Swift and Apple platform development. Use these skills with Claude Code, Codex, Cursor, Windsurf, and other AI coding tools to write better SwiftUI, Swift concurrency, SwiftData, and more.
 
@@ -169,7 +170,55 @@ You also agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 **Note:** If you have many skills, please pick a handful of the most important to add so it doesn’t look like you’re just spamming the repository.
 
 
+---
+
+## 中文说明
+
+本仓库聚合了社区维护的 Swift 与 Apple 平台 AI 代理技能，适用于 Claude Code、Codex、Cursor、Windsurf 等工具。支持中英双语，安装时可自由选择。
+
+### 安装
+
+中文版与英文版**互斥**，请勿同时安装（技能名相同会冲突）。
+
+#### Claude Code
+
+```
+/plugin marketplace add SameTrouble/Swift-Agent-Skills
+/plugin install swift-agent-skills-en@swift-agent-skills    # 英文版
+/plugin install swift-agent-skills-zh@swift-agent-skills    # 中文版
+```
+
+#### Codex
+
+```
+codex plugin marketplace add SameTrouble/Swift-Agent-Skills
+```
+重启 Codex，在插件目录选择安装 `swift-agent-skills-en`（英文）或 `swift-agent-skills-zh`（中文）。
+
+#### OpenCode
+
+英文版：
+```json
+{ "plugin": ["swift-agent-skills-en@git+https://github.com/SameTrouble/Swift-Agent-Skills.git"] }
+```
+中文版：
+```json
+{ "plugin": ["swift-agent-skills-zh@git+https://github.com/SameTrouble/Swift-Agent-Skills.git"] }
+```
+
+### 中文技能清单
+
+见 [plugins/zh/README.md](plugins/zh/README.md)。
+
+### 贡献中文翻译
+
+参见 [plugins/zh/README.md](plugins/zh/README.md) 的翻译流程说明。
+
+
 ## Installation
+
+> ⚠️ **English and Chinese versions are mutually exclusive.** Do not install both — skill names collide. Pick one.
+> ⚠️ **中文版与英文版互斥。** 请勿同时安装——技能名相同会冲突。二选一。
 
 This repository is packaged as a plugin for Claude Code, Codex, and OpenCode. All three read the same bundled Swift skills from `skills/`.
 
@@ -179,10 +228,11 @@ Add this repo as a marketplace, then install the plugin:
 
 ```
 /plugin marketplace add SameTrouble/Swift-Agent-Skills
-/plugin install swift-agent-skills@swift-agent-skills
+/plugin install swift-agent-skills-en@swift-agent-skills    # English
+/plugin install swift-agent-skills-zh@swift-agent-skills    # Chinese
 ```
 
-Restart Claude Code. Skills are namespaced as `/swift-agent-skills:swiftui-pro`, etc. Run `/help` to see all available skills.
+Restart Claude Code. Skills are namespaced as `/swift-agent-skills-en:swiftui-pro` or `/swift-agent-skills-zh:swiftui-pro`, etc. Run `/help` to see all available skills.
 
 **Alternative (local clone, no marketplace):**
 
@@ -199,7 +249,7 @@ Add this repo as a marketplace, then install from the plugin directory:
 codex plugin marketplace add SameTrouble/Swift-Agent-Skills
 ```
 
-Restart Codex, open the plugin directory, and install `swift-agent-skills`. Skills are invoked with `$skill-name` (e.g. `$swiftui-pro`) or implicitly when a task matches the skill description.
+Restart Codex, open the plugin directory, and install `swift-agent-skills-en` (English) or `swift-agent-skills-zh` (Chinese). Skills are invoked with `$skill-name` (e.g. `$swiftui-pro`) or implicitly when a task matches the skill description.
 
 **Alternative (local clone):**
 
@@ -225,11 +275,17 @@ Then add a personal marketplace entry at `~/.agents/plugins/marketplace.json`:
 
 ### OpenCode
 
-Add swift-agent-skills to the `plugin` array in your `opencode.json`:
+Add swift-agent-skills to the `plugin` array in your `opencode.json` (English or Chinese — pick one):
 
 ```json
 {
-  "plugin": ["swift-agent-skills@git+https://github.com/SameTrouble/Swift-Agent-Skills.git"]
+  "plugin": ["swift-agent-skills-en@git+https://github.com/SameTrouble/Swift-Agent-Skills.git"]
+}
+```
+or for Chinese:
+```json
+{
+  "plugin": ["swift-agent-skills-zh@git+https://github.com/SameTrouble/Swift-Agent-Skills.git"]
 }
 ```
 
@@ -239,9 +295,10 @@ Restart OpenCode, then use the `skill` tool to list or load any bundled skill (e
 
 ```json
 {
-  "plugin": ["swift-agent-skills@git+https://github.com/SameTrouble/Swift-Agent-Skills.git#v0.2.0"]
+  "plugin": ["swift-agent-skills-en@git+https://github.com/SameTrouble/Swift-Agent-Skills.git#v0.2.0"]
 }
 ```
+(or `swift-agent-skills-zh@...` for Chinese)
 
 **Alternative install methods:**
 
@@ -255,9 +312,10 @@ git clone https://github.com/SameTrouble/Swift-Agent-Skills ~/.config/opencode/p
 
 ```json
 {
-  "skills": { "paths": ["./Swift-Agent-Skills/skills"] }
+  "skills": { "paths": ["./Swift-Agent-Skills/plugins/en/skills"] }
 }
 ```
+(or `plugins/zh/skills` for Chinese)
 
 ### Syncing skills (maintainers)
 
