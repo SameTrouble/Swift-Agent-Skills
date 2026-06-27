@@ -1,0 +1,11 @@
+{
+  "name": "swift-agent-skills-zh",
+  "version": "0.2.0",
+  "description": "精选 Swift 与 Apple 平台代理技能，涵盖 SwiftUI、SwiftData、Swift 并发、Swift Testing 等。（中文版）",
+  "author": { "name": "Paul Hudson", "url": "https://github.com/SameTrouble" },
+  "homepage": "https://github.com/SameTrouble/Swift-Agent-Skills",
+  "repository": "https://github.com/SameTrouble/Swift-Agent-Skills",
+  "license": "MIT",
+  "keywords": ["swift", "swiftui", "swiftdata", "ios", "apple"],
+  "skills": "./skills/"
+}

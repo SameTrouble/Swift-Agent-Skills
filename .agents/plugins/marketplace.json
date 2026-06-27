@@ -2,11 +2,7 @@
   "name": "swift-agent-skills",
   "interface": { "displayName": "Swift Agent Skills" },
   "plugins": [
-    {
-      "name": "swift-agent-skills",
-      "source": { "source": "local", "path": "./" },
-      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
-      "category": "Productivity"
-    }
+    { "name": "swift-agent-skills-en", "source": { "source": "local", "path": "./plugins/en" }, "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" }, "category": "Productivity" },
+    { "name": "swift-agent-skills-zh", "source": { "source": "local", "path": "./plugins/zh" }, "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" }, "category": "Productivity" }
   ]
 }
