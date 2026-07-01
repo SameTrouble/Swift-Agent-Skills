@@ -2,7 +2,7 @@
     <img src="assets/logo.svg" alt="Swift Agent Skills" height="100" />
 </p>
 
-<h1 align="center">Swift Agent Skills for Claude Code, Codex, and more</h1>
+<h1 align="center">Swift Agent Skills for Claude Code, Codex, and OpenCode</h1>
 
 A curated collection of open-source AI agent skills for Swift and Apple platform development. Use these skills with Claude Code, Codex, Cursor, Windsurf, and other AI coding tools to write better SwiftUI, Swift concurrency, SwiftData, and more.
 
@@ -169,44 +169,94 @@ You also agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 **Note:** If you have many skills, please pick a handful of the most important to add so it doesn’t look like you’re just spamming the repository.
 
 
-## Use as an opencode plugin
+## Installation
 
-This repository is also packaged as an opencode plugin that bundles all listed Swift skills and auto-registers them. One-line install:
+This repository is packaged as a plugin for three platforms. All install methods give you the same 31 bundled Swift skills (e.g. `swiftui-pro`, `swiftdata-pro`, `swift-concurrency-pro`). Skills trigger automatically when their description matches your task.
+
+### Claude Code
+
+**Option A — Marketplace install:**
+
+```
+/plugin marketplace add SameTrouble/Swift-Agent-Skills
+/plugin install swift-agent-skills
+```
+
+**Option B — Git clone (local):**
+
+```bash
+git clone https://github.com/SameTrouble/Swift-Agent-Skills ~/.claude/plugins/swift-agent-skills
+```
+
+Claude Code auto-discovers the `.claude-plugin/plugin.json` manifest and registers all skills under `dist/skills/`.
+
+### Codex
+
+Codex natively discovers `SKILL.md` files. Add this repository as a marketplace in `~/.codex/config.toml`:
+
+**Option A — Marketplace (recommended):**
+
+```toml
+[marketplaces.swift-agent-skills]
+source_type = "git"
+source = "https://github.com/SameTrouble/Swift-Agent-Skills.git"
+ref = "main"
+```
+
+Then install the plugin via Codex's plugin install command. Skills load at user scope.
+
+**Option B — Drop-in (per-skill path):**
+
+Clone the repo, then add each skill you want to `~/.codex/config.toml`:
+
+```toml
+[[skills.config]]
+path = "/absolute/path/to/Swift-Agent-Skills/dist/skills/swiftui-pro"
+enabled = true
+```
+
+### OpenCode
+
+OpenCode discovers skills via `skills.paths` in your `opencode.json`.
+
+**Option A — Global config:**
 
 ```json
 {
-  "plugin": ["swift-agent-skills@git+https://github.com/SameTrouble/Swift-Agent-Skills.git"]
+  "skills": { "paths": ["~/.config/opencode/plugins/Swift-Agent-Skills/dist/skills"] }
 }
 ```
 
-Restart OpenCode, then use the `skill` tool to list or load any of the bundled skills (e.g. `swiftui-pro`, `swiftdata-pro`, `swift-concurrency-pro`). Skills trigger automatically when their description matches your task.
+**Option B — Project-level config:**
 
-### Alternative install methods
+```json
+{
+  "skills": { "paths": ["./Swift-Agent-Skills/dist/skills"] }
+}
+```
 
-**Local clone (auto-discovery):**
+**Option C — Git clone:**
 
 ```bash
 git clone https://github.com/SameTrouble/Swift-Agent-Skills ~/.config/opencode/plugins/Swift-Agent-Skills
 ```
 
-**Static skills only (no plugin code):**
+Then reference `dist/skills` in your `skills.paths` as shown above.
 
-```json
-{
-  "skills": { "paths": ["./Swift-Agent-Skills/skills"] }
-}
-```
+#### Migrating from the old opencode plugin
+
+If you previously installed via `plugin: ["swift-agent-skills@git+..."]`, switch to the `skills.paths` config shown above. The TS plugin mechanism has been removed.
 
 ### Syncing skills (maintainers)
 
-Vendored skills live under `skills/<category>/<name>/`. To refresh from upstream repos:
+Vendored skills live under `skills/<category>/<name>/`. To refresh from upstream repos and rebuild the flat distribution:
 
 ```bash
-./scripts/sync.sh
+./scripts/sync.sh    # re-clone upstreams, copy into skills/
+./scripts/build.sh   # flatten skills/ into dist/skills/<name>/
 ```
 
-This reads `scripts/catalog.json`, re-clones each upstream, and copies skill files into `skills/`. Review `git diff` before committing.
-
+Review `git diff` before committing. Both scripts are idempotent.
 
 ## License
 
