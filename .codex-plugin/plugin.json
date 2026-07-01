@@ -1,0 +1,39 @@
+{
+  "name": "swift-agent-skills",
+  "version": "0.1.0",
+  "description": "31 curated Swift and Apple platform agent skills for SwiftUI, SwiftData, Swift concurrency, testing, and more.",
+  "author": {
+    "name": "Paul Hudson",
+    "url": "https://hackingwithswift.com"
+  },
+  "homepage": "https://github.com/SameTrouble/Swift-Agent-Skills",
+  "repository": "https://github.com/SameTrouble/Swift-Agent-Skills",
+  "license": "MIT",
+  "keywords": [
+    "swift",
+    "swiftui",
+    "swiftdata",
+    "ios",
+    "apple",
+    "skills"
+  ],
+  "skills": "./dist/skills/",
+  "interface": {
+    "displayName": "Swift Agent Skills",
+    "shortDescription": "31 Swift and Apple platform agent skills",
+    "longDescription": "Curated Swift and Apple platform agent skills covering SwiftUI, SwiftData, Swift concurrency, testing, App Store, accessibility, and more.",
+    "developerName": "Paul Hudson",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Help me write SwiftUI code.",
+      "Review my Swift code."
+    ],
+    "websiteURL": "https://github.com/SameTrouble/Swift-Agent-Skills",
+    "brandColor": "#F05138"
+  }
+}
