@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "swift-agent-skills",
+  "description": "31 curated Swift and Apple platform agent skills for SwiftUI, SwiftData, Swift concurrency, testing, and more.",
+  "owner": {
+    "name": "Paul Hudson",
+    "url": "https://hackingwithswift.com"
+  },
+  "plugins": [
+    {
+      "name": "swift-agent-skills",
+      "description": "31 curated Swift and Apple platform agent skills for SwiftUI, SwiftData, Swift concurrency, testing, and more.",
+      "author": {
+        "name": "Paul Hudson",
+        "url": "https://hackingwithswift.com"
+      },
+      "category": "development",
+      "source": ".",
+      "homepage": "https://github.com/SameTrouble/Swift-Agent-Skills"
+    }
+  ]
+}
